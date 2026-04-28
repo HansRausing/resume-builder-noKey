@@ -1,0 +1,21 @@
+{
+  "name": "resume-builder",
+  "version": "1.0.0",
+  "description": "AI-powered resume customization tool using Google Gemini",
+  "scripts": {
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "cd backend && node server.js -- --host 0.0.0.0",
+    "client": "cd frontend && npm run dev -- --host 0.0.0.0",
+    "build": "cd frontend && npm run build",
+    "install-all": "npm install && cd frontend && npm install && cd ../backend && npm install"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.6.2"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

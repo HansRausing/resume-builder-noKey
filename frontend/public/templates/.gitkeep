@@ -1,0 +1,8 @@
+# Place your resume-template.pdf file in this directory
+
+This folder should contain:
+- resume-template.pdf (your resume template)
+
+The app will automatically use this template when generating PDFs.
+
+If no template is found, the app will generate a professional PDF from scratch.
