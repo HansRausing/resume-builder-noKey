@@ -335,33 +335,16 @@ function App() {
 
           <div className="input-group">
             <label htmlFor="currentResume">
-              <span className="label-text">Your Master Resume</span>
+              <span className="label-text">Your Updated Resume</span>
               <span className="label-hint">
-                Paste your complete resume with all experiences and achievements
+                Paste your completed resume with all experiences and achievements
               </span>
             </label>
             <textarea
               id="currentResume"
-              placeholder="Paste your master resume here..."
+              placeholder="Paste your updated resume here..."
               value={currentResume}
               onChange={(e) => setCurrentResume(e.target.value)}
-              rows={12}
-              className="textarea-field"
-            />
-          </div>
-
-          <div className="input-group">
-            <label htmlFor="jobDescription">
-              <span className="label-text">Job Description (Optional)</span>
-              <span className="label-hint">
-                Paste the job description you're applying for (for reference only)
-              </span>
-            </label>
-            <textarea
-              id="jobDescription"
-              placeholder="Paste the job description here..."
-              value={jobDescription}
-              onChange={(e) => setJobDescription(e.target.value)}
               rows={12}
               className="textarea-field"
             />
@@ -391,7 +374,7 @@ function App() {
                   ✨ Synced to FlowCV
                 </span>
               </div>
-              <div className="result-actions">
+              {/* <div className="result-actions">
                 <button
                   type="button"
                   onClick={handleDownloadPDF}
@@ -400,7 +383,7 @@ function App() {
                 >
                   {loading ? "⏳ Generating PDF..." : "📥 Download PDF"}
                 </button>
-              </div>
+              </div> */}
             </div>
             <div className="result-content">
               <pre
