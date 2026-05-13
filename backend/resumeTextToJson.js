@@ -17,15 +17,25 @@ const sliceSection = (lines, startIdx, endIdx) => {
 
 const parseImpactLines = (sectionLines) => {
   const impact = {};
+  let flag = true;
+  let key = "";
+  let value = "";
   for (const raw of sectionLines) {
     const line = raw.trim();
     if (!line) continue;
     const colon = line.indexOf(":");
-    if (colon === -1) continue;
-    const key = line.slice(0, colon).trim();
-    const value = line.slice(colon + 1).trim();
-    if (!key) continue;
-    impact[key] = value;
+    if (colon === -1) {
+      if (flag) key = line.trim();
+      else {
+        impact[key] = line.trim();
+      }
+      flag = !flag;
+    } else {
+      key = line.slice(0, colon).trim();
+      value = line.slice(colon + 1).trim();
+      if (!key) continue;
+      impact[key] = value;
+    }
   }
   return impact;
 };
@@ -133,16 +143,21 @@ export function parseTailoredResumeTextToJson(text) {
   const lines = full.split(/\r?\n/);
 
   const summaryIdx = findLineIndex(lines, /^(summary|profile)(\s+|$)/i);
-  const impactIdx = findLineIndex(lines, /^impact(\s+|$)/i);
+  const impactIdx = findLineIndex(lines, /^(impact|selected impact)(\s+|$)/i);
   const techIdx = findLineIndex(
     lines,
     /^(core technologies|core skills|skills)$/i,
   );
-  const workIdx = findLineIndex(lines, /^work experience$/i);
+  const workIdx = findLineIndex(
+    lines,
+    /^(work experience|professional experience)(\s+|$)/i,
+  );
   const eduIdx = findLineIndex(lines, /^education$/i);
 
   const preface = summaryIdx > 0 ? sliceSection(lines, 0, summaryIdx) : [];
-  const prefaceNonEmpty = preface.map((l) => l.trim()).filter(Boolean);
+  const prefaceNonEmpty = preface
+    .map((l) => l.trim().replaceAll("@@", "").replaceAll("**", ""))
+    .filter(Boolean);
 
   let summaryText = "";
   if (summaryIdx >= 0) {
@@ -171,7 +186,6 @@ export function parseTailoredResumeTextToJson(text) {
           : lines.length;
   const impactLines =
     impactIdx >= 0 ? sliceSection(lines, impactIdx + 1, nextAfterImpact) : [];
-
   const nextAfterTech =
     workIdx >= 0 ? workIdx : eduIdx >= 0 ? eduIdx : lines.length;
   const techLines =
