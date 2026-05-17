@@ -113,7 +113,9 @@ const parseWorkExperience = (sectionLines) => {
 
     const line = raw.trimEnd();
     let trimmed = line.trim();
-    if (isBulletLine(trimmed)) trimmed = stripBulletPrefix(trimmed);
+    if (trimmed.at(0) === "•" || trimmed.at(0) === "-" || trimmed.at(0) === "*") {
+      trimmed = trimmed.slice(1);
+    }
     if (!trimmed) continue;
 
     current.push(line);
